@@ -211,44 +211,38 @@
         </ul>
     </div>
 
+    <h3>Getting Started with the Starter Code</h3>
+    <p>
+        The starter code provides you with the following:
+    </p>
+    <ul>
+        <li>Basic THREE.js setup (scene, camera, renderer)</li>
+        <li>Basic lighting setup with shadows enabled</li>
+        <li>A simple brown court surface without any markings</li>
+        <li>Orbit camera controls that can be toggled with the 'O' key</li>
+        <li>Basic animation loop</li>
+    </ul>
+    
+    <p>Your task is to build upon this foundation by adding all the required elements.</p>
+
     <h3>Step-by-Step Implementation Guide</h3>
 
     <ol>
         <li>
-            <strong>Set up the basic scene</strong>
-            <p>Begin by setting up Three.js with a scene, camera, renderer, and lighting.</p>
-            <div class="code">
-// Basic scene setup
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer({ antialias: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
-
-// Add lights
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
-
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.8);
-directionalLight.position.set(10, 20, 15);
-scene.add(directionalLight);
-
-// Enable shadows
-renderer.shadowMap.enabled = true;
-directionalLight.castShadow = true;
-            </div>
+            <strong>Study the existing code</strong>
+            <p>Examine the starter code to understand the scene setup, camera positioning, and orbit controls.</p>
         </li>
         <li>
-            <strong>Create the basketball court</strong>
-            <p>Implement the court floor, center line, three-point lines, and center circle.</p>
+            <strong>Add court lines</strong>
+            <p>Implement the center line, three-point lines, and center circle as white lines on the court surface.</p>
         </li>
         <li>
             <strong>Create the basketball hoops</strong>
-            <p>Implement two hoops with backboards, rims, nets, and support structures.</p>
+            <p>Implement two hoops with backboards, rims, nets, and support structures at both ends of the court.</p>
         </li>
         <li>
             <strong>Create the basketball</strong>
-            <p>Implement a basketball with proper appearance and behavior.</p>
+            <p>Implement a basketball with proper appearance and physics variables for tracking its state.</p>
         </li>
         <li>
             <strong>Implement physics</strong>
