@@ -1,4 +1,4 @@
-# CLAUDE.md - Project Configuration
+# Project Configuration
 
 ## Commands
 - `node index.js` - Start the application (serves on port 8000)
