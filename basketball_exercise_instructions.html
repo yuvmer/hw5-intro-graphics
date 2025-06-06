@@ -95,8 +95,8 @@
     </p>
 
     <div class="mandatory">
-        <h3>MANDATORY REQUIREMENTS</h3>
-        <p>Your implementation <strong>MUST</strong> include ALL of the following elements:</p>
+        <h3>MANDATORY REQUIREMENTS - HW05 INFRASTRUCTURE</h3>
+        <p>Your implementation <strong>MUST</strong> include ALL of the following infrastructure elements:</p>
         <ol>
             <li>A properly sized basketball court with at least the following court markings:
                 <ul>
@@ -113,36 +113,31 @@
                     <li>Support structure (pole and arms) correctly positioned behind the backboard</li>
                 </ul>
             </li>
-            <li>An interactive basketball with:
+            <li>A static basketball with:
                 <ul>
                     <li>Proper orange color and black seams</li>
-                    <li>Interactive controls allowing the user to move and shoot the ball</li>
-                    <li>Physics-based movement (gravity, bouncing, etc.)</li>
-                    <li>Appropriate rotation during movement</li>
+                    <li>Positioned at center court</li>
+                    <li>Proper size and geometry</li>
                 </ul>
             </li>
-            <li>Scoring system that:
-                <ul>
-                    <li>Detects when the ball passes through a hoop</li>
-                    <li>Counts and displays the score</li>
-                    <li>Provides visual feedback when scoring</li>
-                </ul>
-            </li>
-            <li>Camera and lighting:
+            <li>Camera and lighting infrastructure:
                 <ul>
                     <li>Appropriate lighting with shadows</li>
                     <li>Interactive camera controls (orbit)</li>
                     <li>Appropriate initial camera positioning</li>
                 </ul>
             </li>
-            <li>User interface elements:
+            <li>Basic UI framework:
                 <ul>
-                    <li>Display of controls (instructions for users)</li>
-                    <li>Score display</li>
-                    <li>Shot power indicator</li>
+                    <li>HTML container elements for future score display</li>
+                    <li>HTML container elements for future controls display</li>
+                    <li>Basic CSS styling for UI elements</li>
                 </ul>
             </li>
         </ol>
+        <div class="note">
+            <p><strong>Note:</strong> Interactive controls, physics-based movement, basketball shooting mechanics, rotation animations, and the scoring system will be implemented in the next exercise (HW06).</p>
+        </div>
     </div>
 
     <div class="instructions">
@@ -168,47 +163,35 @@
             <li>Nets must be created using at least 8 line segments</li>
         </ul>
 
-        <h4>3. Interactive Basketball</h4>
+        <h4>3. Static Basketball</h4>
         <ul>
             <li>Ball must be orange with black seam lines</li>
-            <li>User must be able to move the ball using arrow keys</li>
-            <li>User must be able to adjust shot power</li>
-            <li>User must be able to shoot the ball using spacebar</li>
-            <li>Ball must follow a realistic arc when shot (affected by gravity)</li>
-            <li>Ball must bounce realistically off surfaces</li>
-            <li>Ball must rotate appropriately during movement</li>
+            <li>Ball must be positioned at center court</li>
+            <li>Ball must have proper size and spherical geometry</li>
+            <li>Ball texture/material should be realistic</li>
         </ul>
 
-        <h4>4. Physics and Interaction</h4>
+        <h4>4. UI Framework Preparation</h4>
         <ul>
-            <li>Implement gravity affecting the ball</li>
-            <li>Implement bouncing with energy loss</li>
-            <li>Implement wall collisions</li>
-            <li>Implement scoring detection when ball passes through hoop</li>
-            <li>Provide a way to reset the ball position</li>
-        </ul>
-
-        <h4>5. User Interface</h4>
-        <ul>
-            <li>Clear instructions for controls must be displayed</li>
-            <li>Score counter must be visible and update correctly</li>
-            <li>Shot power indicator must be implemented and visible</li>
-            <li>Camera controls must be toggleable</li>
+            <li>Create HTML containers for future score display</li>
+            <li>Create HTML containers for future controls instructions</li>
+            <li>Implement basic CSS styling for UI elements</li>
+            <li>Position UI elements appropriately on screen</li>
+            <li>Ensure camera controls are toggleable with 'O' key</li>
         </ul>
     </div>
 
     <div class="note">
-        <h3>SPECIFIC CONTROLS TO IMPLEMENT</h3>
+        <h3>CONTROLS FOR HW05 INFRASTRUCTURE</h3>
         <p>
-            Your implementation <strong>MUST</strong> support these exact controls:
+            Your HW05 implementation <strong>MUST</strong> support this control:
         </p>
         <ul>
-            <li><span class="highlight">Arrow Keys</span>: Move the basketball on the court</li>
-            <li><span class="highlight">W/S Keys</span>: Increase/decrease shot power</li>
-            <li><span class="highlight">Spacebar</span>: Shoot the ball toward the nearest hoop</li>
-            <li><span class="highlight">R Key</span>: Reset ball to center position</li>
             <li><span class="highlight">O Key</span>: Toggle orbit camera controls</li>
         </ul>
+        <p>
+            <strong>Note:</strong> Interactive basketball controls (Arrow Keys, W/S Keys, Spacebar, R Key) will be implemented in the next exercise (HW06).
+        </p>
     </div>
 
     <h3>Getting Started with the Starter Code</h3>
@@ -241,24 +224,12 @@
             <p>Implement two hoops with backboards, rims, nets, and support structures at both ends of the court.</p>
         </li>
         <li>
-            <strong>Create the basketball</strong>
-            <p>Implement a basketball with proper appearance and physics variables for tracking its state.</p>
+            <strong>Create the static basketball</strong>
+            <p>Implement a basketball with proper appearance positioned at center court.</p>
         </li>
         <li>
-            <strong>Implement physics</strong>
-            <p>Set up gravity, bouncing, and collisions for the basketball.</p>
-        </li>
-        <li>
-            <strong>Implement user controls</strong>
-            <p>Set up keyboard controls for moving, shooting, and resetting the ball.</p>
-        </li>
-        <li>
-            <strong>Implement scoring</strong>
-            <p>Add scoring detection and display.</p>
-        </li>
-        <li>
-            <strong>Add UI elements</strong>
-            <p>Add shot power indicator, score display, and controls instructions.</p>
+            <strong>Set up UI framework</strong>
+            <p>Create HTML containers and CSS styling for future interactive elements.</p>
         </li>
     </ol>
 
@@ -280,24 +251,19 @@
             <td>Correct implementation of hoops with all required components</td>
         </tr>
         <tr>
-            <td>Basketball & Physics</td>
-            <td>25</td>
-            <td>Realistic basketball with proper animations and physics</td>
+            <td>Static Basketball</td>
+            <td>20</td>
+            <td>Properly modeled basketball with correct appearance and positioning</td>
         </tr>
         <tr>
-            <td>User Interaction</td>
-            <td>15</td>
-            <td>All required controls properly implemented</td>
-        </tr>
-        <tr>
-            <td>Scoring System</td>
+            <td>Camera Controls</td>
             <td>10</td>
-            <td>Functional scoring system with visual feedback</td>
+            <td>Orbit camera controls properly implemented and toggleable</td>
         </tr>
         <tr>
-            <td>UI Elements</td>
-            <td>5</td>
-            <td>All required UI elements properly implemented</td>
+            <td>UI Framework</td>
+            <td>15</td>
+            <td>HTML containers and CSS styling prepared for future interactive elements</td>
         </tr>
         <tr>
             <td>Code Quality</td>
@@ -307,16 +273,17 @@
     </table>
 
     <div class="note">
-        <h3>Additional Challenges (Optional)</h3>
-        <p>For students seeking additional challenges, consider implementing:</p>
+        <h3>Additional Infrastructure Challenges (Optional) - Bonus: 10 Points</h3>
+        <p>For students seeking additional challenges in HW05, consider implementing any of these features for up to 10 bonus points:</p>
         <ul>
             <li>More detailed court markings (free throw lines, key areas)</li>
-            <li>More accurate basketball physics (spin affecting trajectory)</li>
-            <li>Two-player mode</li>
-            <li>Sound effects</li>
-            <li>Textured surfaces</li>
-            <li>Game timer and game modes</li>
+            <li>Textured surfaces for court and basketball</li>
+            <li>Enhanced lighting setup with multiple light sources</li>
+            <li>More detailed hoop models (chain nets, branded backboards)</li>
+            <li>Stadium environment (bleachers, scoreboard)</li>
+            <li>Multiple camera preset positions</li>
         </ul>
+        <p><strong>Note:</strong> Physics, interactive controls, and scoring features will be the focus of the next exercise (HW06).</p>
     </div>
 
     <div class="resources">
@@ -330,19 +297,34 @@
 
     <h3>Submission Requirements</h3>
     <p>
-        Submit your completed exercise as a zip file containing:
+        Submit your completed exercise in one of the following ways:
+    </p>
+    <ul>
+        <li><strong>RECOMMENDED: Link to a public GitHub repository</strong> containing your code and screenshots</li>
+        <li>Alternative: Zip file containing all files</li>
+    </ul>
+    <p>
+        Your submission must include:
     </p>
     <ul>
         <li>All source code files</li>
         <li>A README.md file explaining:
             <ul>
+                <li><strong>MANDATORY: Full names of all group members</strong></li>
                 <li>How to run your implementation</li>
                 <li>Any additional features you implemented</li>
                 <li>Any known issues or limitations</li>
                 <li>Sources of any external assets used</li>
             </ul>
         </li>
-        <li>Optionally, include screenshots of your implementation</li>
+        <li><strong>MANDATORY: Screenshots of your implementation showing:</strong>
+            <ul>
+                <li>Overall view of the basketball court with hoops</li>
+                <li>Close-up view of basketball hoops with nets</li>
+                <li>View showing the basketball positioned at center court</li>
+                <li>View demonstrating camera controls functionality</li>
+            </ul>
+        </li>
     </ul>
 
     <div class="note">
