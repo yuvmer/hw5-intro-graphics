@@ -1,43 +1,46 @@
-# Exercise 5 – Basketball Court with THREE.js
+# Exercise 5 – Basketball Court Infrastructure with THREE.js
 
 ## Overview
-This exercise will have you implement a basketball court scene with interactive elements using THREE.js. The provided code gives you a basic brown court surface as a starting point. You will need to add court lines, basketball hoops, and implement a basketball with physics-based movement.
+This exercise focuses on implementing the static infrastructure of a basketball court scene using THREE.js. You will create the court, hoops, and basketball, but WITHOUT physics, animation, or interactive controls. This is the foundation for the next exercise (HW06) which will add the interactive elements.
 
-## Tasks
+## Tasks - HW05 INFRASTRUCTURE ONLY
 1. Add court lines to the basketball court:
    - Center line
-   - Center circle
+   - Center circle  
    - Three-point lines on both sides
-   - Other boundary lines (sidelines, baselines, free throw lines, etc.)
+   - Court markings must be white and clearly visible
 
-2. Create basketball hoops:
-   - Backboard with a transparent material
-   - Rim with appropriate size (~45cm / 18 inch diameter)
-   - Net using line segments
-   - Support structure (pole and base)
+2. Create basketball hoops (static):
+   - Backboard (white, partially transparent)
+   - Rim (orange) at regulation height
+   - Net using line segments (at least 8 segments)
+   - Support structure (pole and arms) positioned BEHIND the backboard
    - Place hoops on both ends of the court
 
-3. Implement a basketball:
-   - Create a sphere with orange material
-   - Add black lines to simulate basketball seams
-   - Implement physics for the ball (gravity, bouncing, etc.)
+3. Implement a static basketball:
+   - Create a sphere with orange material and black seams
+   - Position at center court
+   - Proper size and spherical geometry
+   - NO physics or movement
 
-4. Add user controls:
-   - Move the ball using arrow keys
-   - Adjust shot power
-   - Shoot the ball with spacebar
-   - Reset ball position
-   
-5. Scoring system (Optional, for extra points):
-   - Detect when the ball passes through a hoop
-   - Display the score on the screen
-   - Create visual/audio feedback when scoring
+4. Camera and lighting infrastructure:
+   - Interactive camera controls (orbit) - toggle with 'O' key
+   - Appropriate lighting with shadows
+   - Proper initial camera positioning
+
+5. Basic UI framework preparation:
+   - HTML containers for future score display
+   - HTML containers for future controls display  
+   - Basic CSS styling for UI elements
 
 ## Technical Requirements
 - All objects should cast and receive shadows
 - Use appropriate meshes and materials for each object
-- Physics implementation should look realistic
 - The scene should be responsive when the browser window is resized
+- Basketball must remain STATIC (no physics or movement)
+
+## IMPORTANT NOTE
+**Physics-based movement, interactive controls (arrow keys, spacebar), shooting mechanics, and scoring systems will be implemented in the next exercise (HW06). Do NOT implement these features in HW05.**
 
 ## Getting Started
 - The starter code already includes:
