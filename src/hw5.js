@@ -171,6 +171,13 @@ function createBasketballHoop(x, z, facingRight) {
   rim.castShadow = true;
   hoopGroup.add(rim);
 
+  hoops.push({
+    x: x + rimOffsetX,
+    y: rimHeight,
+    z: z,
+    radius: 0.8
+  });
+
   // === Chain-style Net ===
   const linksPerStrand = 6;
   const netTopRadius = 0.8;
@@ -244,6 +251,8 @@ function createBasketballHoop(x, z, facingRight) {
   hoopGroup.add(base);
 }
 
+const hoops = [];
+
 // Create a basketball mesh with seams (horizontal and vertical)
 function createBasketball() {
   // === Ball geometry and appearance ===
@@ -296,6 +305,20 @@ camera.applyMatrix4(cameraTranslate);
 const controls = new OrbitControls(camera, renderer.domElement);
 let isOrbitEnabled = true;
 
+const ballState = {
+  position: new THREE.Vector3(0, 4, 0),
+  velocity: new THREE.Vector3(0, 0, 0),
+  gravity: new THREE.Vector3(0, -0.05, 0),
+  isShot: false,
+  isControlled: true,
+  shotPower: 0.5,
+  directionX: 0,
+  directionZ: 0,
+  bounceCount: 0,
+  maxBounces: 5,
+  lastScore: 0
+};
+
 // Instructions display
 const instructionsElement = document.createElement('div');
 instructionsElement.style.position = 'absolute';
@@ -308,15 +331,12 @@ instructionsElement.style.textAlign = 'left';
 instructionsElement.innerHTML = `
   <h3>Controls:</h3>
   <p>O - Toggle orbit camera</p>
+  <p>Arrow Keys - Move ball</p>
+  <p>W/S - Adjust shot power</p>
+  <p>SPACE - Shoot ball</p>
+  <p>R - Reset ball</p>
 `;
 document.body.appendChild(instructionsElement);
-
-// Handle key events
-function handleKeyDown(e) {
-  if (e.key === "o") {
-    isOrbitEnabled = !isOrbitEnabled;
-  }
-}
 
 // Score display
 const scoreElement = document.createElement('div');
@@ -329,17 +349,210 @@ scoreElement.style.fontFamily = 'Arial, sans-serif';
 scoreElement.textContent = 'Score: 0';
 document.body.appendChild(scoreElement);
 
-document.addEventListener('keydown', handleKeyDown);
+// Create the power bar container to show shot power
+const powerBarContainer = document.createElement('div');
+powerBarContainer.style.position = 'absolute';
+powerBarContainer.style.bottom = '20px';
+powerBarContainer.style.right = '20px';
+powerBarContainer.style.width = '30px';
+powerBarContainer.style.height = '150px';
+powerBarContainer.style.border = '2px solid white';
+powerBarContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+document.body.appendChild(powerBarContainer);
 
-// Animation function
+// Create the actual power bar that visually represents shot power
+const powerBar = document.createElement('div');
+powerBar.style.position = 'absolute';
+powerBar.style.bottom = '0';
+powerBar.style.width = '100%';
+powerBar.style.backgroundColor = 'green';
+powerBar.style.height = ballState.shotPower * 100 + '%';
+powerBarContainer.appendChild(powerBar);
+
+let score = 0;
+
+// Handle keydown events (for movement and shooting)
+function handleKeyDown(e) {
+  if (e.key === "o") {
+    isOrbitEnabled = !isOrbitEnabled;
+  }
+  
+  if (ballState.isControlled) {
+    if (e.key === "ArrowLeft") {
+      ballState.directionX = -1;
+    } else if (e.key === "ArrowRight") {
+      ballState.directionX = 1;
+    } else if (e.key === "ArrowUp") {
+      ballState.directionZ = -1;
+    } else if (e.key === "ArrowDown") {
+      ballState.directionZ = 1;
+    }
+    // Adjust shot power with 'w' and 's' keys
+    if (e.key === "w" && ballState.shotPower < 1.0) {
+      ballState.shotPower += 0.05;
+      updatePowerBar();
+    } else if (e.key === "s" && ballState.shotPower > 0.1) {
+      ballState.shotPower -= 0.05;
+      updatePowerBar();
+    }
+    
+    // Shoot the ball when the spacebar is pressed
+    if (e.key === " ") {
+      shootBall();
+    }
+  }
+  
+  if (e.key === "r") {
+    resetBall();
+  }
+}
+
+// Handle keyup events (to stop movement when the key is released)
+function handleKeyUp(e) {
+  if (e.key === "ArrowLeft" || e.key === "ArrowRight") {
+    ballState.directionX = 0;
+  } else if (e.key === "ArrowUp" || e.key === "ArrowDown") {
+    ballState.directionZ = 0;
+  }
+}
+
+// Update the shot power bar's height and color based on the power
+function updatePowerBar() {
+  powerBar.style.height = ballState.shotPower * 100 + '%';
+  
+  if (ballState.shotPower < 0.3) {
+    powerBar.style.backgroundColor = 'blue';
+  } else if (ballState.shotPower < 0.7) {
+    powerBar.style.backgroundColor = 'green';
+  } else {
+    powerBar.style.backgroundColor = 'red';
+  }
+}
+
+// Function to simulate shooting the ball with direction and power
+function shootBall() {
+  let targetHoop;
+  if (basketball.position.x < 0) {
+    targetHoop = hoops[1];
+  } else {
+    targetHoop = hoops[0];
+  }
+  
+  const direction = new THREE.Vector3(
+    targetHoop.x - basketball.position.x,
+    targetHoop.y + 3 - basketball.position.y,
+    targetHoop.z - basketball.position.z
+  ).normalize();
+  
+  // Apply velocity based on the shot power and direction
+  ballState.velocity.x = direction.x * ballState.shotPower * 3;
+  ballState.velocity.y = direction.y * ballState.shotPower * 3;
+  ballState.velocity.z = direction.z * ballState.shotPower * 3;
+  
+  ballState.isShot = true;
+  ballState.isControlled = false;
+  ballState.bounceCount = 0;
+}
+
+// Function to reset the ball's position and state
+function resetBall() {
+  basketball.position.set(0, 4, 0);
+  ballState.position.set(0, 4, 0);
+  ballState.velocity.set(0, 0, 0);
+  ballState.isShot = false;
+  ballState.isControlled = true;
+  ballState.bounceCount = 0;
+}
+
+// Function to check if the ball collides with the hoop and score
+function checkHoopCollision() {
+  for (const hoop of hoops) {
+    const hoopPos = new THREE.Vector3(hoop.x, hoop.y, hoop.z);
+    const distance = hoopPos.distanceTo(basketball.position);
+    
+    if (distance < hoop.radius + 0.2 && 
+        Math.abs(basketball.position.y - hoop.y) < 0.7 && 
+        Math.abs(ballState.lastScore - Date.now()) > 2000) {
+      score += 2;
+      scoreElement.textContent = `Score: ${score}`;
+      ballState.lastScore = Date.now();
+      
+      const originalColor = basketball.material.color.clone();
+      basketball.material.color.set(0x00ff00);
+      
+      setTimeout(() => {
+        basketball.material.color.copy(originalColor);
+      }, 300);
+    }
+  }
+}
+
+// Function to handle ball physics (gravity, bouncing, and movement)
+function updateBallPhysics() {
+  if (!ballState.isShot) {
+    if (ballState.directionX !== 0 || ballState.directionZ !== 0) {
+      basketball.position.x += ballState.directionX * 0.2;
+      basketball.position.z += ballState.directionZ * 0.2;
+      
+      basketball.position.x = Math.max(-14, Math.min(14, basketball.position.x));
+      basketball.position.z = Math.max(-7, Math.min(7, basketball.position.z));
+      
+      ballState.position.copy(basketball.position);
+    }
+    return;
+  }
+  
+  // Apply gravity to the ball
+  ballState.velocity.add(ballState.gravity);
+  
+  ballState.position.add(ballState.velocity);
+  
+  basketball.position.copy(ballState.position);
+  
+  basketball.rotation.x += ballState.velocity.z * 0.1;
+  basketball.rotation.z -= ballState.velocity.x * 0.1;
+  
+  if (ballState.position.y < 1 && ballState.velocity.y < 0) {
+    ballState.velocity.y = -ballState.velocity.y * 0.7;
+    
+    ballState.velocity.x *= 0.9;
+    ballState.velocity.z *= 0.9;
+    
+    ballState.bounceCount++;
+    
+    if (ballState.bounceCount > ballState.maxBounces || 
+       (Math.abs(ballState.velocity.x) < 0.01 && 
+        Math.abs(ballState.velocity.z) < 0.01 && 
+        Math.abs(ballState.velocity.y) < 0.1)) {
+      resetBall();
+    }
+  }
+  
+  if (Math.abs(ballState.position.x) > 14 && 
+      Math.sign(ballState.position.x) === Math.sign(ballState.velocity.x)) {
+    ballState.velocity.x = -ballState.velocity.x * 0.7;
+  }
+  
+  if (Math.abs(ballState.position.z) > 7 && 
+      Math.sign(ballState.position.z) === Math.sign(ballState.velocity.z)) {
+    ballState.velocity.z = -ballState.velocity.z * 0.7;
+  }
+  
+  checkHoopCollision();
+}
+
+document.addEventListener('keydown', handleKeyDown);
+document.addEventListener('keyup', handleKeyUp);
+
 function animate() {
   requestAnimationFrame(animate);
   
-  // Update controls
+  updateBallPhysics();
   controls.enabled = isOrbitEnabled;
   controls.update();
   
   renderer.render(scene, camera);
 }
 
+// Start animation loop
 animate();
